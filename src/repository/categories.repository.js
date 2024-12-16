@@ -3,11 +3,10 @@ import { prisma } from "../database/prisma.client.js"
 export function CategoriesRepository() {
     const createAutomatic = async () => {
         const categories = [
-            { name: 'audio' },
-            { name: 'video' },
-            { name: 'imagem' },
-            { name: 'pdf' },
-            { name: 'compacto' },
+            { name: 'Audios' },
+            { name: 'Videos' },
+            { name: 'Imagens' },
+            { name: 'Outros' },
         ]
         for (const category of categories) {
             await prisma.category.upsert({

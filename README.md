@@ -1,14 +1,8 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+-> npm install
 
-generator client {
-  provider = "prisma-client-js"
-}
+-> npx prisma init --datasource-provider sqlite
 
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
+//cole os models em prisma/schema.prisma:
 
 model File {
   id         String   @id @default(uuid())
@@ -30,3 +24,9 @@ model Category {
 
   @@map("categories")
 }
+
+
+-> npx prisma migrate dev
+//de um nome, exemplo: init
+
+

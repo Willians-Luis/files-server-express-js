@@ -6,10 +6,6 @@ export function FilesRepository() {
     const create = async ( file) => {
         const categoryName = categoryRename(file.mimetype)
 
-        if (!categoryName) {
-            return null
-        }
-
         const category = await prisma.category.findFirst({
             where: {
                 name: categoryName
@@ -43,6 +39,16 @@ export function FilesRepository() {
         return result;
     }
 
-    return { create, findAll }
+    const deleteFile = async ( filename ) => {
+        const result = await prisma.file.deleteMany({
+            where: {
+                filename: filename
+            }
+        })
+
+        return result;
+    }
+
+    return { create, findAll, deleteFile }
 }
 

@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { storage } from './multerConfig.js';
 import { CategoriesRepository } from './repository/categories.repository.js';
@@ -15,17 +16,14 @@ const __dirname = path.dirname(__filename)
 const upload = multer({ storage: storage });
 const filesRepository = FilesRepository()
 const categoriesRepository = CategoriesRepository()
-const app = express()
+
 const port = 3333
 const host = '0.0.0.0'
 
-// const cors = require('cors');
 
-// app.use(cors({
-//     origin: 'https://example.com', // Substitua pelo domínio permitido ou use '*' para permitir todos os domínios (não recomendado em produção)
-// }));
+const app = express()
 
-
+app.use(cors())
 
 app.get('/category', async (req, res) => {
     const result = await categoriesRepository.findAll()
@@ -59,7 +57,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const result = await filesRepository.create(req.file)
 
     if (result) {
-        res.status(201).send()
+        res.status(200).send()
     }
 
     res.status(400).send()
@@ -71,7 +69,6 @@ app.get('/download/:filename', (req, res) => {
     const filename = req.params.filename;
     const filePath = path.resolve(__dirname, 'uploads', filename);
 
-    // Verifica se o arquivo existe antes de enviá-lo
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
@@ -117,6 +114,28 @@ app.get('/stream/:filename', (req, res) => {
     }
 })
 
+app.delete('/delete/:filename', async (req, res) => {
+    const filename = req.params.filename;
+    const filePath = path.resolve(__dirname, 'uploads', filename);
+
+    if (fs.existsSync(filePath)) {
+        try {
+            fs.unlinkSync(filePath); // Apaga o arquivo na pasta uploads
+
+            const result = await filesRepository.deleteFile(filename);
+            
+            if (result) {
+                res.status(200).send({ message: 'Arquivo excluído com sucesso' });
+            } else {
+                res.status(500).send({ error: 'Erro ao excluir registro do banco de dados' });
+            }
+        } catch (error) {
+            res.status(500).send({ error: 'Erro ao excluir arquivo' });
+        }
+    } else {
+        res.status(404).send({ error: 'File not found' });
+    }
+});
 
 
 categoriesRepository.createAutomatic()
