@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Folder {
+  id         String      @id @default(uuid())
+  name       String
+  subFolders File[]
+
+  @@map("folder")
+}
+
+
+model File {
+  id          String    @id @default(uuid())
+  name        String
+  filename    String
+  mimetype    String
+  size        Decimal
+  folderId String
+  Folder   Folder @relation(fields: [folderId], references: [id])
+
+  @@map("file")
+}
