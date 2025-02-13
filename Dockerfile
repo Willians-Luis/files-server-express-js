@@ -1,12 +1,15 @@
-FROM node:latest
+FROM node:alpine
+#FROM arm64v8/node:alpine
 
 WORKDIR /api
 
+COPY package*.json ./
+
+RUN npm install --production
+
 COPY . .
 
-RUN rm -rf node_modules
-
-RUN npm install
+RUN npx prisma generate
 
 EXPOSE 3333
 

@@ -8,22 +8,22 @@ datasource db {
 }
 
 model Folder {
-  id         String      @id @default(uuid())
+  id         String  @id @default(uuid())
+  isPublic   Boolean @default(true)
   name       String
   subFolders File[]
 
   @@map("folder")
 }
 
-
 model File {
-  id          String    @id @default(uuid())
-  name        String
-  filename    String
-  mimetype    String
-  size        Decimal
+  id       String  @id @default(uuid())
+  name     String
+  filename String
+  mimetype String
+  size     Decimal
   folderId String
-  Folder   Folder @relation(fields: [folderId], references: [id])
+  Folder   Folder  @relation(fields: [folderId], references: [id])
 
   @@map("file")
 }

@@ -17,13 +17,17 @@ function FolderRepository() {
             where: {
                 id,
             }
-        });
+        })
 
         return result
     }
 
-    const findAll = async () => {
-        const result = await prisma.folder.findMany();
+    const findAll = async (isPublic) => {
+        const result = await prisma.folder.findMany({
+            where: {
+                isPublic
+            }
+        })
 
         return result
     }
