@@ -4,10 +4,9 @@ import { FolderRepository } from '../repositories/folder-repository.js'
 const folderRoute = Router();
 const folderRepository = FolderRepository()
 
-folderRoute.get('/isPublic/:isPublic', async (req, res) => {
+folderRoute.get('/', async (req, res) => {
     try {
-        const isPublic = req.params.isPublic === 'true'
-        const result = await folderRepository.findAll(isPublic)
+        const result = await folderRepository.findAll()
         if (result) {
             return res.status(200).json(result)
         }

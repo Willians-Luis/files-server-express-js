@@ -22,12 +22,8 @@ function FolderRepository() {
         return result
     }
 
-    const findAll = async (isPublic) => {
-        const result = await prisma.folder.findMany({
-            where: {
-                isPublic
-            }
-        })
+    const findAll = async () => {
+        const result = await prisma.folder.findMany()
 
         return result
     }

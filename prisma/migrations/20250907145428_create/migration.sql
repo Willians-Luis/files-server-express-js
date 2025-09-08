@@ -1,7 +1,6 @@
 -- CreateTable
 CREATE TABLE "folder" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "isPublic" BOOLEAN NOT NULL DEFAULT true,
     "name" TEXT NOT NULL
 );
 

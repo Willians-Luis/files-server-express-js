@@ -16,8 +16,16 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         const time = new Date().getTime()
-        callback(null, `${time}_${file.originalname}`)
+        callback(null, `temp_${time}_${file.originalname}`)
     }
 })
 
-export default storage
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 * 1024, // 10 GB em bytes
+  },
+})
+
+export default upload
