@@ -3,9 +3,14 @@ build para arm64:
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 docker buildx create --use
-docker buildx build --platform linux/arm64 -t willians008/api-files-server-arm64:2.0 --load .
+docker buildx build --platform linux/arm64 -t willians008/api-files-server-arm64:3.0 --load .
 
-docker push willians008/api-files-server-arm64:2.0
+docker push willians008/api-files-server-arm64:3.0
+
+
+--Instalar Container
+docker run --name api-files-server --restart always -p 3333:3333 -d willians008/api-files-server-arm64:3.0
+
 
 
 buid normal:
